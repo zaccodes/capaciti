@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>Main.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #808080; font-style: italic;}
+.s3 { color: #008000; font-weight: bold;}
+.s4 { color: #0000ff;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Main.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span>adventuregame;
+
+<span class="s0">import </span>java.util.Random;
+<span class="s0">import </span>java.util.Scanner;
+
+<span class="s0">public class </span>Main {
+    <span class="s0">public static void </span>main(String[] args) {
+
+        <span class="s2">// System objects</span>
+        Scanner in = <span class="s0">new </span>Scanner(System.in);
+        Random rand = <span class="s0">new </span>Random();
+
+        <span class="s2">// Game Variables</span>
+        String[] enemies = { <span class="s3">&quot;Skeleton&quot;</span>, <span class="s3">&quot;Zombie&quot;</span>, <span class="s3">&quot;Warrior&quot;</span>, <span class="s3">&quot;Assassin&quot;</span>};
+        <span class="s0">int </span>maxEnemyHealth = <span class="s4">75</span>;
+        <span class="s0">int </span>enemyAttackDamage = <span class="s4">25</span>;
+
+        <span class="s2">// Player Variables</span>
+        <span class="s0">int </span>health = <span class="s4">100</span>;
+        <span class="s0">int </span>attackDamage = <span class="s4">50</span>;
+        <span class="s0">int </span>numHealthPotions = <span class="s4">3</span>;
+        <span class="s0">int </span>healthPotionHealAmount = <span class="s4">30</span>;
+        <span class="s0">int </span>healthPotionDropChance = <span class="s4">50</span>; <span class="s2">// Percentage</span>
+
+        <span class="s0">boolean </span>running = <span class="s0">true</span>;
+
+        System.out.println(<span class="s3">&quot;Welcome to the Dungeon!&quot;</span>);
+
+        GAME:
+        <span class="s0">while</span>(running) {
+            System.out.println(<span class="s3">&quot;------------------------------------------&quot;</span>);
+
+            <span class="s0">int </span>enemyHealth = rand.nextInt(maxEnemyHealth);
+            String enemy = enemies[rand.nextInt(enemies.length)];
+            System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3"># &quot; </span>+ enemy + <span class="s3">&quot; has appeared! #</span><span class="s0">\n</span><span class="s3">&quot;</span>);
+
+            <span class="s0">while </span>(enemyHealth &gt; <span class="s4">0</span>) {
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">Your Health: &quot; </span>+ health);
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&quot; </span>+ enemy + <span class="s3">&quot;'s Health: &quot; </span>+ enemyHealth);
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\n\t</span><span class="s3">What would you like to do?&quot;</span>);
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">1. Attack&quot;</span>);
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">2. Drink ealth potion&quot;</span>);
+                System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">3. Run!&quot;</span>);
+
+                String input = in.nextLine();
+
+                <span class="s0">if </span>(input.equals(<span class="s3">&quot;1&quot;</span>)) {
+                    <span class="s0">int </span>damageDealt = rand.nextInt(attackDamage);
+                    <span class="s0">int </span>damageTaken = rand.nextInt(enemyAttackDamage);
+
+                    enemyHealth -= damageDealt;
+                    health -= damageTaken;
+
+                    System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&gt; You strike the &quot; </span>+ enemy + <span class="s3">&quot; for &quot; </span>+ damageDealt + <span class="s3">&quot; damage.&quot;</span>);
+                    System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&gt; You receive &quot; </span>+ damageTaken + <span class="s3">&quot; damage in retaliation!&quot;</span>);
+
+                    <span class="s0">if </span>(health &lt; <span class="s4">1</span>) {
+                        System.out.println(<span class="s3">&quot;You have taken too much damage, you are too weak to go on!&quot;</span>);
+                        <span class="s0">break</span>;
+                    }
+                } <span class="s0">else if </span>(input.equals(<span class="s3">&quot;2&quot;</span>)) {
+                    <span class="s0">if </span>(numHealthPotions &gt; <span class="s4">0</span>) {
+                        health += healthPotionHealAmount;
+                        numHealthPotions--;
+                        System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&gt; You drink a health potion, healing yourself for &quot; </span>+ healthPotionHealAmount + <span class="s3">&quot;. &quot;</span>
+                                + <span class="s3">&quot;</span><span class="s0">\n\t</span><span class="s3">&gt; You now have &quot; </span>+ health + <span class="s3">&quot; Health.&quot;</span>
+                                + <span class="s3">&quot;</span><span class="s0">\n\t</span><span class="s3">&gt; You have &quot; </span>+ numHealthPotions + <span class="s3">&quot;health potions left. </span><span class="s0">\n</span><span class="s3">&quot;</span>);
+                    } <span class="s0">else </span>{
+                        System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&gt; You have no health potions left! Defeat enemies for a change to get one.&quot;</span>);
+                    }
+                } <span class="s0">else if </span>(input.equals(<span class="s3">&quot;3&quot;</span>)) {
+                    System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">&gt; You run away from the &quot; </span>+ enemy + <span class="s3">&quot;!&quot;</span>);
+                    <span class="s0">continue </span>GAME;
+                } <span class="s0">else </span>{
+                    System.out.println(<span class="s3">&quot;</span><span class="s0">\t</span><span class="s3">Invalid command&quot;</span>);
+                }
+            }
+
+            <span class="s0">if </span>(health &lt; <span class="s4">1</span>) {
+                System.out.println(<span class="s3">&quot;You limp out of the dungeon, weak from battle&quot;</span>);
+                <span class="s0">break</span>;
+            }
+
+            System.out.println(<span class="s3">&quot;----------------------------------------------&quot;</span>);
+            System.out.println(<span class="s3">&quot; # &quot; </span>+ enemy + <span class="s3">&quot; was defeated! # &quot;</span>);
+            System.out.println(<span class="s3">&quot; # You have &quot; </span>+ health + <span class="s3">&quot; Health left. #&quot;</span>);
+            <span class="s0">if </span>(rand.nextInt(<span class="s4">100</span>) &lt; healthPotionDropChance) {
+                numHealthPotions++;
+                System.out.println(<span class="s3">&quot; # The &quot; </span>+ enemy + <span class="s3">&quot; dropped a health potion! #&quot;</span>);
+                System.out.println(<span class="s3">&quot; # You have &quot; </span>+ numHealthPotions + <span class="s3">&quot; health potion(s). #&quot;</span>);
+            }
+            System.out.println(<span class="s3">&quot;----------------------------------------------&quot;</span>);
+            System.out.println(<span class="s3">&quot;What would you like to do now?&quot;</span>);
+            System.out.println(<span class="s3">&quot;1. Continue fighting&quot;</span>);
+            System.out.println(<span class="s3">&quot;2. Exist dungeon&quot;</span>);
+
+            String input = in.nextLine();
+
+            <span class="s0">while </span>(!input.equals(<span class="s3">&quot;1&quot;</span>) &amp;&amp; !input.equals(<span class="s3">&quot;2&quot;</span>)) {
+                System.out.println(<span class="s3">&quot;Invalid command!&quot;</span>);
+                input = in.nextLine();
+            }
+
+            <span class="s0">if </span>(input.equals(<span class="s3">&quot;1&quot;</span>)) {
+                System.out.println(<span class="s3">&quot;You continue on your adventure!&quot;</span>);
+            } <span class="s0">else if </span>(input.equals(<span class="s3">&quot;2&quot;</span>)) {
+                System.out.println(<span class="s3">&quot;You exit the dungeon, successful from your adventures!&quot;</span>);
+                <span class="s0">break</span>;
+            }
+        }
+                System.out.println(<span class="s3">&quot;####################&quot;</span>);
+                System.out.println(<span class="s3">&quot;THANKS FOR PLAYING!&quot;</span>);
+                System.out.println(<span class="s3">&quot;####################&quot;</span>);
+    }
+}
+</pre>
+</body>
+</html>
